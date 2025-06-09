@@ -44,7 +44,10 @@ class TaskController extends Controller
     public function edit(Task $task): Response
     {
         return Inertia::render('Tasks/Edit', [
-            'task' => $task,
+            'task' => [
+                ...$task->toArray(),
+                'due_date' => optional($task->due_date)->format('Y-m-d'),
+            ],
         ]);
     }
 
