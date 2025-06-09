@@ -10,6 +10,10 @@
       </Link>
     </div>
 
+    <div v-if="$page.props.flash.success" class="mb-4 p-4 bg-green-100 text-green-700 rounded border border-green-300">
+        {{ $page.props.flash.success }}
+    </div>
+
     <div v-if="tasks.length === 0" class="text-gray-500">
       No tasks found.
     </div>
