@@ -52,7 +52,7 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-import { emit } from 'vue'
+const emit = defineEmits(['submitted'])
 
 const form = useForm({
   title: '',
