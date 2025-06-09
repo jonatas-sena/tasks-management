@@ -20,14 +20,19 @@ class TaskController extends Controller
         $this->service = $service;
     }
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $tasks = $this->service->list();
+        $filters = $request->only(['status', 'priority', 'date_from', 'date_to']);
+
+        $tasks = Task::filter($filters)
+            ->latest()
+            ->get();
 
         return Inertia::render('Tasks/Index', [
             'tasks' => $tasks,
         ]);
     }
+
 
     public function create(): Response
     {

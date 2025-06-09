@@ -22,4 +22,13 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeFilter($query, $filters)
+    {
+        return $query
+            ->when($filters['status'] ?? null, fn($q, $value) => $q->where('status', $value))
+            ->when($filters['priority'] ?? null, fn($q, $value) => $q->where('priority', $value))
+            ->when($filters['date_from'] ?? null, fn($q, $value) => $q->whereDate('due_date', '>=', $value))
+            ->when($filters['date_to'] ?? null, fn($q, $value) => $q->whereDate('due_date', '<=', $value));
+    }
 }

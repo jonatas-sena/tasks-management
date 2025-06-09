@@ -9,11 +9,34 @@
         + Create Task
       </Link>
     </div>
-
+    
     <div v-if="$page.props.flash.success" class="mb-4 p-4 bg-green-100 text-green-700 rounded border border-green-300">
-        {{ $page.props.flash.success }}
+      {{ $page.props.flash.success }}
     </div>
 
+    <!-- Filters -->
+    <div class="mb-6 bg-white p-4 rounded shadow">
+      <h2 class="text-lg font-semibold mb-2">Filters</h2>
+      <div class="flex flex-wrap gap-4">
+        <select v-model="filters.status" @change="applyFilters" class="border rounded px-2 py-1" style="padding-right: 30px;">
+          <option value="">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="in_progress">In Progress</option>
+          <option value="done">Done</option>
+        </select>
+
+        <select v-model="filters.priority" @change="applyFilters" class="border rounded px-2 py-1" style="padding-right: 30px;">
+          <option value="">All Priorities</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+
+        <input type="date" v-model="filters.dateFrom" @change="applyFilters" class="border rounded px-2 py-1" />
+        <input type="date" v-model="filters.dateTo" @change="applyFilters" class="border rounded px-2 py-1" />
+      </div>
+    </div>
+    
     <div v-if="tasks.length === 0" class="text-gray-500">
       No tasks found.
     </div>
@@ -30,19 +53,19 @@
           Status: {{ task.status }} | Priority: {{ task.priority }}
         </p>
         <Link
-            :href="`/tasks/${task.id}/edit`"
-            class="text-sm text-blue-600 hover:underline"
+          :href="`/tasks/${task.id}/edit`"
+          class="text-sm text-blue-600 hover:underline"
         >
-            Edit
+          Edit
         </Link>
-
       </li>
     </ul>
   </div>
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
+import { useTaskFilterStore } from '@/Stores/taskFilterStore'
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
 
 defineOptions({ layout: DefaultLayout })
@@ -50,4 +73,10 @@ defineOptions({ layout: DefaultLayout })
 defineProps({
   tasks: Array
 })
+
+const filters = useTaskFilterStore()
+
+function applyFilters() {
+  router.get('/tasks', filters.query, { preserveState: true, replace: true })
+}
 </script>

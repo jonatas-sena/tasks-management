@@ -1,12 +1,22 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useTaskFilterStore = defineStore('taskFilters', () => {
-  const status = ref(null)
-  const priority = ref(null)
-  const dateFrom = ref(null)
-  const dateTo = ref(null)
+  const status = ref('')
+  const priority = ref('')
+  const dateFrom = ref('')
+  const dateTo = ref('')
   const search = ref('')
+
+  const query = computed(() => {
+    const q = {}
+    if (status.value) q.status = status.value
+    if (priority.value) q.priority = priority.value
+    if (dateFrom.value) q.date_from = dateFrom.value
+    if (dateTo.value) q.date_to = dateTo.value
+    if (search.value) q.search = search.value
+    return q
+  })
 
   function reset() {
     status.value = null
@@ -22,6 +32,7 @@ export const useTaskFilterStore = defineStore('taskFilters', () => {
     dateFrom,
     dateTo,
     search,
+    query,
     reset
   }
 })
