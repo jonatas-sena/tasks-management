@@ -60,13 +60,30 @@
         <p class="text-xs text-gray-500">
           Status: {{ task.status }} | Priority: {{ task.priority }}
         </p>
-        <Link
-          :href="`/tasks/${task.id}/edit`"
-          class="text-sm text-blue-600 hover:underline"
-        >
-          Edit
-        </Link>
+        <div class="mt-2 flex items-center gap-4">
+          <Link
+            :href="`/tasks/${task.id}/edit`"
+            class="text-sm text-blue-600 hover:underline"
+          >
+            Edit
+          </Link>
+
+          <form
+            :action="`/tasks/${task.id}`"
+            method="post"
+            @submit.prevent="() => $inertia.delete(`/tasks/${task.id}`)"
+          >
+            <input type="hidden" name="_method" value="delete" />
+            <button
+              type="submit"
+              class="text-sm text-red-600 hover:underline"
+            >
+              Delete
+            </button>
+          </form>
+        </div>
       </li>
+
     </ul>
 
     <div class="mt-6 flex flex-wrap gap-2">
