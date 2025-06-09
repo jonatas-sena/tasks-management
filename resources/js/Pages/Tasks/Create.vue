@@ -9,6 +9,9 @@
 <script setup>
 import TaskForm from '@/Components/Tasks/TaskForm.vue'
 import { router } from '@inertiajs/vue3'
+import DefaultLayout from '@/Layouts/DefaultLayout.vue'
+
+defineOptions({ layout: DefaultLayout })
 
 function handleSuccess() {
   router.visit('/tasks', { method: 'get' })
