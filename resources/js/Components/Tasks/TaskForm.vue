@@ -45,25 +45,39 @@
       class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
       :disabled="form.processing"
     >
-      Create Task
+      {{ props.task ? 'Update Task' : 'Create Task' }}
     </button>
   </form>
 </template>
 
 <script setup>
 import { useForm } from '@inertiajs/vue3'
+
 const emit = defineEmits(['submitted'])
 
+const props = defineProps({
+  task: {
+    type: Object,
+    default: null
+  }
+})
+
 const form = useForm({
-  title: '',
-  description: '',
-  status: '',
-  priority: '',
-  due_date: '',
+  title: props.task?.title || '',
+  description: props.task?.description || '',
+  status: props.task?.status || '',
+  priority: props.task?.priority || '',
+  due_date: props.task?.due_date || '',
 })
 
 function submit() {
-  form.post('/tasks', {
+  const route = props.task
+    ? `/tasks/${props.task.id}`
+    : '/tasks'
+
+  const method = props.task ? 'put' : 'post'
+
+  form[method](route, {
     onSuccess: () => {
       form.reset()
       emit('submitted')

@@ -29,6 +29,13 @@
         <p class="text-xs text-gray-500">
           Status: {{ task.status }} | Priority: {{ task.priority }}
         </p>
+        <Link
+            :href="`/tasks/${task.id}/edit`"
+            class="text-sm text-blue-600 hover:underline"
+        >
+            Edit
+        </Link>
+
       </li>
     </ul>
   </div>

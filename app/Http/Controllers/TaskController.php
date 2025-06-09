@@ -9,6 +9,7 @@ use App\Services\TaskService;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -47,11 +48,21 @@ class TaskController extends Controller
         ]);
     }
 
-    public function update(UpdateTaskRequest $request, Task $task): RedirectResponse
+    public function update(Request $request, Task $task)
     {
-        $this->service->update($task, $request->validated());
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|in:pending,in_progress,done',
+            'priority' => 'required|in:low,medium,high',
+            'due_date' => 'nullable|date',
+        ]);
 
-        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
+        $task->update($validated);
+
+        return redirect()
+            ->route('tasks.index')
+            ->with('success', 'Task updated successfully.');
     }
 
     public function destroy(Task $task): RedirectResponse
