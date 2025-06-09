@@ -22,7 +22,7 @@ class TaskController extends Controller
 
     public function index(Request $request): Response
     {
-        $filters = $request->only(['status', 'priority', 'date_from', 'date_to']);
+        $filters = $request->only(['status', 'priority', 'date_from', 'date_to', 'search']);
 
         $tasks = Task::filter($filters)
             ->latest()

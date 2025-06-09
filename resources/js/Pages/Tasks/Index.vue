@@ -18,6 +18,14 @@
     <div class="mb-6 bg-white p-4 rounded shadow">
       <h2 class="text-lg font-semibold mb-2">Filters</h2>
       <div class="flex flex-wrap gap-4">
+        <input
+            type="text"
+            v-model="filters.search"
+            @keyup.enter="applyFilters"
+            placeholder="Search by title..."
+            class="border rounded px-2 py-1 w-full sm:w-128"
+        />
+
         <select v-model="filters.status" @change="applyFilters" class="border rounded px-2 py-1" style="padding-right: 30px;">
           <option value="">All Statuses</option>
           <option value="pending">Pending</option>

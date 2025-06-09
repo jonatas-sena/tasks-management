@@ -26,6 +26,7 @@ class Task extends Model
     public function scopeFilter($query, $filters)
     {
         return $query
+            ->when($filters['search'] ?? null, fn($q, $value) => $q->where('title', 'ilike', "%$value%"))
             ->when($filters['status'] ?? null, fn($q, $value) => $q->where('status', $value))
             ->when($filters['priority'] ?? null, fn($q, $value) => $q->where('priority', $value))
             ->when($filters['date_from'] ?? null, fn($q, $value) => $q->whereDate('due_date', '>=', $value))
