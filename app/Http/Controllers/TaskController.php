@@ -24,14 +24,17 @@ class TaskController extends Controller
     {
         $filters = $request->only(['status', 'priority', 'date_from', 'date_to', 'search']);
 
-        $tasks = Task::filter($filters)
+        $tasks = Task::with('user')
+            ->filter($filters)
             ->latest()
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('Tasks/Index', [
             'tasks' => $tasks,
         ]);
     }
+
 
 
     public function create(): Response

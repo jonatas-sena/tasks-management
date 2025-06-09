@@ -24,6 +24,7 @@ return new class extends Migration
             $table->index('status');
             $table->index('priority');
             $table->index('due_date');
+            $table->index('title');
         });
     }
 

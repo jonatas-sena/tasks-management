@@ -51,7 +51,7 @@
 
     <ul v-else class="space-y-2">
       <li
-        v-for="task in tasks"
+        v-for="task in tasks.data"
         :key="task.id"
         class="border p-4 rounded shadow-sm bg-white"
       >
@@ -68,6 +68,21 @@
         </Link>
       </li>
     </ul>
+
+    <div class="mt-6 flex flex-wrap gap-2">
+        <Link
+            v-for="link in tasks.links"
+            :key="link.label"
+            :href="link.url"
+            v-html="link.label"
+            :class="[
+            'px-3 py-1 rounded border',
+            link.active ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'
+            ]"
+            :disabled="!link.url"
+        />
+    </div>
+
   </div>
 </template>
 
@@ -79,7 +94,7 @@ import DefaultLayout from '@/Layouts/DefaultLayout.vue'
 defineOptions({ layout: DefaultLayout })
 
 defineProps({
-  tasks: Array
+  tasks: Object
 })
 
 const filters = useTaskFilterStore()
