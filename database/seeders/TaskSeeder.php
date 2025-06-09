@@ -17,7 +17,7 @@ class TaskSeeder extends Seeder
             'password' => bcrypt('12345678'),
         ]);
 
-        Task::factory()->count(5)->create([
+        Task::factory()->count(15)->create([
             'user_id' => $user->id,
         ]);
     }
